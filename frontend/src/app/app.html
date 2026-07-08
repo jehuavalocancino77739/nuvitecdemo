@@ -1,0 +1,140 @@
+<header class="site-header" [class.is-scrolled]="scrolled()" [class.menu-is-open]="menuOpen()">
+  <a class="brand" routerLink="/" aria-label="Nuvitec inicio" (click)="closeMenu()">
+    <img src="/assets/nuvitec/nuviteclogo.png" alt="Nuvitec" />
+  </a>
+
+  <button class="menu-toggle" type="button" aria-label="Abrir menú" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="main-nav" aria-label="Navegación principal">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Inicio</a>
+    <a routerLink="/nosotros" routerLinkActive="active" (click)="closeMenu()">Nosotros</a>
+    <a routerLink="/servicios" routerLinkActive="active" (click)="closeMenu()">Servicios</a>
+    <a routerLink="/soluciones-ti" routerLinkActive="active" (click)="closeMenu()">Soluciones TI</a>
+    <a routerLink="/proyectos" routerLinkActive="active" (click)="closeMenu()">Proyectos</a>
+    <a routerLink="/contacto" routerLinkActive="active" (click)="closeMenu()">Contacto</a>
+    @if (auth.currentUser()) {
+      <a routerLink="/portal" routerLinkActive="active" (click)="closeMenu()">Portal</a>
+    }
+  </nav>
+
+  <div class="header-actions">
+    <button class="client-btn" type="button" (click)="openLogin(); closeMenu()">
+      {{ auth.currentUser() ? 'Mi portal' : 'Clientes' }}
+    </button>
+    <a class="whatsapp-btn" href="https://wa.me/51970982915" target="_blank" rel="noreferrer">
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<router-outlet></router-outlet>
+
+<footer class="footer">
+  <div>
+    <img src="/assets/nuvitec/nuviteclogo.png" alt="Nuvitec" />
+    <p>Más que una empresa, somos una empresa amiga.</p>
+  </div>
+  <div>
+    <h3>Enlaces rápidos</h3>
+    <a routerLink="/nosotros">Nuestra empresa</a>
+    <a routerLink="/servicios">Servicios</a>
+    <a routerLink="/proyectos">Proyectos</a>
+    <a routerLink="/contacto">Contacto</a>
+  </div>
+  <div>
+    <h3>Servicios</h3>
+    <a routerLink="/servicios">Ingeniería civil</a>
+    <a routerLink="/soluciones-ti">Servicios TI</a>
+    <a routerLink="/contacto">Solicite una visita</a>
+    <a routerLink="/contacto">Políticas de privacidad</a>
+  </div>
+  <div>
+    <h3>Contáctenos</h3>
+    <p>Av. 2 de mayo nro. 647, Urb. Nueva Esperanza Lima 35</p>
+    <p>970 982 915 - 994 152 707</p>
+    <p>informes@nuvitecsac.pe</p>
+    <div class="social-links">
+      <a href="https://wa.me/51970982915" target="_blank" rel="noreferrer">WA</a>
+      <a href="#" aria-label="LinkedIn de Nuvitec">IN</a>
+      <a href="#" aria-label="Facebook de Nuvitec">FB</a>
+    </div>
+  </div>
+  <p class="copyright">© 2026 Nuvitec.pe. Todos los derechos reservados.</p>
+</footer>
+
+<a class="floating-whatsapp" href="https://wa.me/51970982915" target="_blank" rel="noreferrer" aria-label="Escribir por WhatsApp">WA</a>
+<button class="back-top" type="button" aria-label="Volver arriba" (click)="scrollTop()">↑</button>
+<button class="chat-toggle" type="button" aria-label="Abrir chatbot" (click)="toggleChat()">Chat</button>
+
+@if (chatOpen()) {
+  <aside class="chatbot" aria-label="Chatbot Nuvitec">
+    <header>
+      <div>
+        <strong>Asistente Nuvitec</strong>
+        <span>Interfaz lista para IA</span>
+      </div>
+      <button type="button" aria-label="Cerrar chatbot" (click)="toggleChat()">x</button>
+    </header>
+
+    <div class="chat-body" #chatBody>
+      @for (message of messages; track $index) {
+        <p [class]="message.from">{{ message.text }}</p>
+      }
+    </div>
+
+    <form class="chat-form" (ngSubmit)="sendChat()">
+      <input
+        name="message"
+        type="text"
+        [(ngModel)]="chatMessage"
+        placeholder="Escribe tu consulta"
+        autocomplete="off"
+      />
+      <button type="submit">Enviar</button>
+    </form>
+  </aside>
+}
+
+@if (loginOpen()) {
+  <section class="modal-backdrop" aria-label="Acceso de clientes">
+    <div class="login-modal">
+      <button class="close-btn" type="button" aria-label="Cerrar acceso" (click)="closeLogin()">x</button>
+      <p class="section-kicker">Portal de clientes</p>
+      <h2>Accede a tu cuenta</h2>
+      <p>Consulta solicitudes, presupuestos y el estado de tus servicios.</p>
+
+      <form (ngSubmit)="login()">
+        <label>
+          Correo
+          <input
+            name="email"
+            type="email"
+            [(ngModel)]="loginEmail"
+            placeholder="cliente@empresa.com"
+            autocomplete="username"
+          />
+        </label>
+        <label>
+          Contraseña
+          <input
+            name="password"
+            type="password"
+            [(ngModel)]="loginPassword"
+            placeholder="Tu contraseña"
+            autocomplete="current-password"
+          />
+        </label>
+        @if (loginError()) {
+          <p class="form-error">{{ loginError() }}</p>
+        }
+        <button class="primary-btn" type="submit" [disabled]="loginLoading()">
+          {{ loginLoading() ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+    </div>
+  </section>
+}

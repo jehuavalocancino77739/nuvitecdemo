@@ -1,0 +1,13 @@
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+backend/target/
+backend/work/
+backend/.metadata/
+backend/src/main/resources/application-local.properties
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
