@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
   imports: [RouterLink],
   template: `
     <main>
-      <section class="page-hero portal-hero">
+      <section class="page-hero portal-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
         <p class="section-kicker">Portal de clientes</p>
         <h1>Área privada</h1>
       </section>

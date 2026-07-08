@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-contact-page',
   template: `
     <main>
-      <section class="page-hero contact-hero">
+      <section class="page-hero contact-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
         <p class="section-kicker">Contacto</p>
         <h1>Solicita una visita o presupuesto</h1>
       </section>

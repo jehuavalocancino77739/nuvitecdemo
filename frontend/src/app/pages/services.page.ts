@@ -8,7 +8,7 @@ import { coverages, processSteps, services } from '../nuvitec-data';
   imports: [RouterLink],
   template: `
     <main>
-      <section class="page-hero services-hero">
+      <section class="page-hero services-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
         <p class="section-kicker">Servicios</p>
         <h1>Soluciones integrales para tecnología, infraestructura y seguridad</h1>
       </section>

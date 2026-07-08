@@ -25,7 +25,7 @@ import { advantages, clientLogos, faqItems, processSteps, services, stats, testi
         </div>
 
         <div class="hero-visual reveal" aria-label="Operaciones tecnológicas Nuvitec">
-          <img src="/assets/nuvitec/4d.jpg" alt="Equipo técnico trabajando en infraestructura tecnológica" loading="eager" />
+          <img src="assets/nuvitec/4d.jpg" alt="Equipo técnico trabajando en infraestructura tecnológica" loading="eager" />
           <div class="hero-metric">
             <strong>24/7</strong>
             <span>Soporte remoto disponible</span>
@@ -77,7 +77,7 @@ import { advantages, clientLogos, faqItems, processSteps, services, stats, testi
           <a class="primary-btn" routerLink="/nosotros">Conocer la empresa</a>
         </div>
         <div class="team-photo reveal">
-          <img src="/assets/nuvitec/trabajo-equipo.jpg" alt="Equipo profesional de Nuvitec" loading="lazy" />
+          <img src="assets/nuvitec/trabajo-equipo.jpg" alt="Equipo profesional de Nuvitec" loading="lazy" />
         </div>
       </section>
 

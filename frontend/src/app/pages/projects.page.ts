@@ -6,14 +6,14 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <main>
-      <section class="page-hero projects-hero">
+      <section class="page-hero projects-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
         <p class="section-kicker">Proyectos</p>
         <h1>Equipo de trabajo garantizado</h1>
       </section>
 
       <section class="team-section split-layout modern-section">
         <div class="team-photo">
-          <img src="/assets/nuvitec/trabajo-equipo.jpg" alt="Equipo de trabajo Nuvitec" loading="lazy" />
+          <img src="assets/nuvitec/trabajo-equipo.jpg" alt="Equipo de trabajo Nuvitec" loading="lazy" />
         </div>
         <div>
           <p class="section-kicker">Proyectos integrales</p>
