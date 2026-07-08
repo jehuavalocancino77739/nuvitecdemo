@@ -138,7 +138,15 @@ BEGIN
     INSERT INTO dbo.customer_requests
         (user_id, request_code, title, description, service_type, status, updated_at)
     VALUES
-        (@user_id, CONCAT(N'TMP-', NEWID()), @title, @description, @service_type, N'Recibida', SYSUTCDATETIME());
+        (
+            @user_id,
+            CONCAT(N'T-', LEFT(REPLACE(CONVERT(NVARCHAR(36), NEWID()), N'-', N''), 28)),
+            @title,
+            @description,
+            @service_type,
+            N'Recibida',
+            SYSUTCDATETIME()
+        );
 
     DECLARE @id BIGINT = SCOPE_IDENTITY();
     UPDATE dbo.customer_requests
@@ -190,7 +198,15 @@ BEGIN
     INSERT INTO dbo.customer_requests
         (user_id, request_code, title, description, service_type, status, updated_at)
     VALUES
-        (@user_id, CONCAT(N'TMP-', NEWID()), @title, @description, @service_type, @status, SYSUTCDATETIME());
+        (
+            @user_id,
+            CONCAT(N'T-', LEFT(REPLACE(CONVERT(NVARCHAR(36), NEWID()), N'-', N''), 28)),
+            @title,
+            @description,
+            @service_type,
+            @status,
+            SYSUTCDATETIME()
+        );
 
     DECLARE @id BIGINT = SCOPE_IDENTITY();
     UPDATE dbo.customer_requests
@@ -276,4 +292,3 @@ BEGIN
          N'Programada', SYSUTCDATETIME());
 END
 GO
-
