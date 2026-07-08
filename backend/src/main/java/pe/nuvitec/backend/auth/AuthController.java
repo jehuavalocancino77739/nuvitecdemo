@@ -10,16 +10,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pe.nuvitec.backend.security.JwtService;
+import pe.nuvitec.backend.user.ClientUserRepository;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final ClientUserRepository userRepository;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthController(
+            AuthenticationManager authenticationManager,
+            JwtService jwtService,
+            ClientUserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/login")
@@ -33,5 +39,16 @@ public class AuthController {
                 .replace("ROLE_", "");
 
         return new LoginResponse(jwtService.createToken(request.email(), role), request.email(), role);
+    }
+
+    @PostMapping("/register")
+    public RegistrationResponse register(@Valid @RequestBody RegisterRequest request) {
+        var id = userRepository.create(
+                request.email(),
+                request.password(),
+                request.fullName(),
+                request.company(),
+                request.phone());
+        return new RegistrationResponse(id, "Cuenta creada correctamente.");
     }
 }

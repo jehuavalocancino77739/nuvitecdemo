@@ -17,7 +17,11 @@
     <a routerLink="/proyectos" routerLinkActive="active" (click)="closeMenu()">Proyectos</a>
     <a routerLink="/contacto" routerLinkActive="active" (click)="closeMenu()">Contacto</a>
     @if (auth.currentUser()) {
-      <a routerLink="/portal" routerLinkActive="active" (click)="closeMenu()">Portal</a>
+      @if (auth.isAdmin()) {
+        <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Administración</a>
+      } @else {
+        <a routerLink="/portal" routerLinkActive="active" (click)="closeMenu()">Portal</a>
+      }
     }
   </nav>
 
@@ -135,6 +139,10 @@
           {{ loginLoading() ? 'Ingresando...' : 'Ingresar' }}
         </button>
       </form>
+      <p class="register-link">
+        ¿Aún no tienes cuenta?
+        <a routerLink="/registro" (click)="closeLogin()">Regístrate como cliente</a>
+      </p>
     </div>
   </section>
 }

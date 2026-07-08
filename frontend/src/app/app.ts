@@ -73,7 +73,7 @@ export class App implements AfterViewChecked {
 
   protected openLogin(): void {
     if (this.auth.currentUser()) {
-      this.router.navigateByUrl('/portal');
+      this.router.navigateByUrl(this.auth.isAdmin() ? '/admin' : '/portal');
       return;
     }
 
@@ -93,7 +93,7 @@ export class App implements AfterViewChecked {
         this.auth.startSession(response);
         this.loginLoading.set(false);
         this.loginOpen.set(false);
-        this.router.navigateByUrl('/portal');
+        this.router.navigateByUrl(response.role === 'ADMIN' ? '/admin' : '/portal');
       },
       error: () => {
         this.loginLoading.set(false);

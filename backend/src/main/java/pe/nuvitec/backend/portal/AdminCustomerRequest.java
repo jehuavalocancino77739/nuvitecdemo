@@ -2,7 +2,7 @@ package pe.nuvitec.backend.portal;
 
 import java.time.LocalDateTime;
 
-public record CustomerRequest(
+public record AdminCustomerRequest(
         long id,
         String code,
         String title,
@@ -10,5 +10,11 @@ public record CustomerRequest(
         String serviceType,
         String status,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt) {
+        LocalDateTime updatedAt,
+        long userId,
+        String clientName,
+        String clientEmail,
+        String company,
+        String phone) {
 }
+

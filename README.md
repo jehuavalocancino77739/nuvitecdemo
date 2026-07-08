@@ -56,12 +56,37 @@ El script crea:
 - Correo: `cliente@nuvitec.pe`
 - Contrasena: `Nuvitec2026`
 
+## Gestion de clientes
+
+Ejecuta la migracion incremental despues del script inicial:
+
+```bash
+cd backend
+sqlcmd -S .\SQLEXPRESS -E -f 65001 -b -i database\02-client-management.sql
+```
+
+Acceso administrador:
+
+- Correo: `admin@nuvitec.pe`
+- Contrasena: `Nuvitec2026`
+
+Clientes de ejemplo:
+
+- `operaciones@constructorasol.pe` / `Nuvitec2026`
+- `sistemas@comercialandina.pe` / `Nuvitec2026`
+
+El portal permite al cliente registrar, consultar e imprimir sus solicitudes. El panel
+`/admin` permite administrar clientes y solicitudes.
+
 ## Endpoints iniciales
 
 - `POST /api/auth/login`
+- `POST /api/auth/register`
 - `POST /api/chat`
 - `POST /api/contact`
 - `GET /api/portal/requests` con `Authorization: Bearer <token>`
+- `POST /api/portal/requests` con rol `CLIENT`
+- CRUD `/api/admin/clients` y `/api/admin/requests` con rol `ADMIN`
 
 ## Chatbot con API de IA
 
