@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <main>
-      <section class="page-hero solutions-hero ti-hero" style="--page-hero-image: url('assets/nuvitec/3.jpg')">
+      <section class="page-hero solutions-hero ti-hero" style="--page-hero-image: url('assets/nuvitec/project-ti.jpg')">
         <div>
           <p class="section-kicker">Soluciones TI</p>
           <h1>Infraestructura tecnológica segura, estable y lista para crecer</h1>

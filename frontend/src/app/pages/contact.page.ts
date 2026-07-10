@@ -20,7 +20,7 @@ interface ContactResponse {
   imports: [FormsModule],
   template: `
     <main>
-      <section class="page-hero contact-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
+      <section class="page-hero contact-hero" style="--page-hero-image: url('assets/nuvitec/contactenos.jpg')">
         <p class="section-kicker">Contacto</p>
         <h1>Solicita una visita o presupuesto</h1>
       </section>

@@ -181,7 +181,7 @@ import { RouterLink } from '@angular/router';
   `],
   template: `
     <main>
-      <section class="page-hero projects-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
+      <section class="page-hero projects-hero" style="--page-hero-image: url('assets/nuvitec/project-obras.jpg')">
         <p class="section-kicker">Proyectos</p>
         <h1>Soluciones ejecutadas con control, seguridad y respaldo técnico</h1>
       </section>

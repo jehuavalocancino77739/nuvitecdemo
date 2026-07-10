@@ -6,7 +6,7 @@ import { advantages, stats, testimonials } from '../nuvitec-data';
   selector: 'app-about-page',
   template: `
     <main>
-      <section class="page-hero about-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
+      <section class="page-hero about-hero" style="--page-hero-image: url('assets/nuvitec/trabajo-equipo.jpg')">
         <p class="section-kicker">Acerca de nosotros</p>
         <h1>Una empresa amiga con visión tecnológica</h1>
       </section>
