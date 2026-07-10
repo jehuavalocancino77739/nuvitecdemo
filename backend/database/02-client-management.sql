@@ -255,6 +255,24 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE dbo.sp_contact_messages_list
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        id,
+        name,
+        company,
+        email,
+        subject,
+        message,
+        created_at
+    FROM dbo.contact_messages
+    ORDER BY created_at DESC;
+END
+GO
+
 DECLARE @demo_hash NVARCHAR(120) = N'$2a$10$F9yapFmqON1cl8dZsFcE..H1bmAN9AMHivl0pTp1YMd63IYgna1Gi';
 
 IF NOT EXISTS (SELECT 1 FROM dbo.app_users WHERE email = N'admin@nuvitec.pe')
@@ -272,7 +290,7 @@ IF NOT EXISTS (SELECT 1 FROM dbo.app_users WHERE email = N'sistemas@comercialand
 DECLARE @client_one BIGINT = (SELECT id FROM dbo.app_users WHERE email = N'operaciones@constructorasol.pe');
 DECLARE @client_two BIGINT = (SELECT id FROM dbo.app_users WHERE email = N'sistemas@comercialandina.pe');
 
-IF NOT EXISTS (SELECT 1 FROM dbo.customer_requests WHERE title = N'Instalación de videovigilancia para almacén')
+IF NOT EXISTS (SELECT 1 FROM dbo.customer_requests WHERE request_code = N'NV-DEMO-01')
 BEGIN
     INSERT INTO dbo.customer_requests
         (user_id, request_code, title, description, service_type, status, updated_at)
@@ -282,7 +300,7 @@ BEGIN
          N'En revisión', SYSUTCDATETIME());
 END
 
-IF NOT EXISTS (SELECT 1 FROM dbo.customer_requests WHERE title = N'Mantenimiento preventivo de red')
+IF NOT EXISTS (SELECT 1 FROM dbo.customer_requests WHERE request_code = N'NV-DEMO-02')
 BEGIN
     INSERT INTO dbo.customer_requests
         (user_id, request_code, title, description, service_type, status, updated_at)

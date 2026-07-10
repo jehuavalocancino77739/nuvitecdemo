@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import pe.nuvitec.backend.contact.ContactMessage;
+import pe.nuvitec.backend.contact.ContactRepository;
 import pe.nuvitec.backend.portal.AdminCustomerRequest;
 import pe.nuvitec.backend.portal.AdminRequestPayload;
 import pe.nuvitec.backend.portal.CustomerRequestRepository;
@@ -27,12 +29,15 @@ import pe.nuvitec.backend.user.ClientUserRequest;
 public class AdminController {
     private final ClientUserRepository userRepository;
     private final CustomerRequestRepository requestRepository;
+    private final ContactRepository contactRepository;
 
     public AdminController(
             ClientUserRepository userRepository,
-            CustomerRequestRepository requestRepository) {
+            CustomerRequestRepository requestRepository,
+            ContactRepository contactRepository) {
         this.userRepository = userRepository;
         this.requestRepository = requestRepository;
+        this.contactRepository = contactRepository;
     }
 
     @GetMapping("/clients")
@@ -65,6 +70,11 @@ public class AdminController {
         return requestRepository.findAllForAdmin();
     }
 
+    @GetMapping("/messages")
+    public List<ContactMessage> messages() {
+        return contactRepository.findAll();
+    }
+
     @PostMapping("/requests")
     @ResponseStatus(HttpStatus.CREATED)
     public RequestCreated createRequest(@Valid @RequestBody AdminRequestPayload request) {
@@ -89,4 +99,3 @@ public class AdminController {
     public record RequestCreated(long id) {
     }
 }
-

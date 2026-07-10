@@ -1717,6 +1717,11 @@ textarea:focus {
   margin-top: 5px;
 }
 
+.message-cell {
+  max-width: 420px;
+  white-space: pre-wrap;
+}
+
 .row-actions {
   display: flex;
   gap: 7px;

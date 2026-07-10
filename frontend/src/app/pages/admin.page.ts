@@ -8,6 +8,7 @@ import {
   AdminCustomerRequest,
   AuthService,
   ClientUser,
+  ContactMessage,
   RegistrationPayload,
   RequestPayload
 } from '../auth.service';
@@ -26,6 +27,7 @@ import {
         <div class="admin-metrics">
           <span><strong>{{ clients.length }}</strong> clientes</span>
           <span><strong>{{ requests.length }}</strong> solicitudes</span>
+          <span><strong>{{ contactMessages.length }}</strong> mensajes</span>
           <button type="button" class="ghost-light-btn" (click)="auth.logout()">Cerrar sesión</button>
         </div>
       </section>
@@ -35,6 +37,7 @@ import {
           <nav class="admin-tabs" aria-label="Secciones administrativas">
             <button type="button" [class.active]="tab === 'clients'" (click)="tab = 'clients'">Clientes</button>
             <button type="button" [class.active]="tab === 'requests'" (click)="tab = 'requests'">Solicitudes</button>
+            <button type="button" [class.active]="tab === 'messages'" (click)="tab = 'messages'">Mensajes</button>
           </nav>
 
           @if (message) {
@@ -104,7 +107,7 @@ import {
                 </tbody>
               </table>
             </div>
-          } @else {
+          } @else if (tab === 'requests') {
             <header class="admin-section-header">
               <div>
                 <p class="section-kicker">Operaciones</p>
@@ -182,6 +185,46 @@ import {
                 </tbody>
               </table>
             </div>
+          } @else {
+            <header class="admin-section-header">
+              <div>
+                <p class="section-kicker">Formulario web</p>
+                <h2>Mensajes de contacto</h2>
+              </div>
+              <button type="button" class="ghost-dark-btn" (click)="loadMessages()">Actualizar</button>
+            </header>
+
+            @if (contactMessages.length) {
+              <div class="data-table-wrap">
+                <table class="data-table messages-table">
+                  <thead>
+                    <tr>
+                      <th>Remitente</th>
+                      <th>Empresa</th>
+                      <th>Consulta</th>
+                      <th>Mensaje</th>
+                      <th>Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (contact of contactMessages; track contact.id) {
+                      <tr>
+                        <td><strong>{{ contact.name }}</strong><small>{{ contact.email }}</small></td>
+                        <td>{{ contact.company || 'Sin empresa' }}</td>
+                        <td><strong>{{ contact.subject || 'Consulta general' }}</strong></td>
+                        <td class="message-cell">{{ contact.message }}</td>
+                        <td>{{ contact.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <div class="empty-state">
+                <h3>Aún no hay mensajes</h3>
+                <p>Las consultas enviadas desde la página de contacto aparecerán aquí.</p>
+              </div>
+            }
           }
         </section>
       } @else {
@@ -206,7 +249,8 @@ export class AdminPage implements OnInit {
   protected readonly statuses = ['Recibida', 'En revisión', 'Cotizada', 'Programada', 'En proceso', 'Atendida', 'Cancelada'];
   protected clients: ClientUser[] = [];
   protected requests: AdminCustomerRequest[] = [];
-  protected tab: 'clients' | 'requests' = 'clients';
+  protected contactMessages: ContactMessage[] = [];
+  protected tab: 'clients' | 'requests' | 'messages' = 'clients';
   protected clientFormOpen = false;
   protected requestFormOpen = false;
   protected editingClientId = 0;
@@ -324,6 +368,7 @@ export class AdminPage implements OnInit {
   private refresh(): void {
     this.loadClients();
     this.loadRequests();
+    this.loadMessages();
   }
 
   private loadClients(): void {
@@ -337,6 +382,13 @@ export class AdminPage implements OnInit {
     this.auth.getAdminRequests().subscribe({
       next: (requests) => (this.requests = requests),
       error: () => this.notice('No se pudieron cargar las solicitudes.', true)
+    });
+  }
+
+  protected loadMessages(): void {
+    this.auth.getContactMessages().subscribe({
+      next: (messages) => (this.contactMessages = messages),
+      error: () => this.notice('No se pudieron cargar los mensajes.', true)
     });
   }
 

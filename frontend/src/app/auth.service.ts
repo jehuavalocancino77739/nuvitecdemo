@@ -45,6 +45,16 @@ export interface AdminCustomerRequest extends CustomerRequest {
   phone: string;
 }
 
+export interface ContactMessage {
+  id: number;
+  name: string;
+  company: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+}
+
 export interface RequestPayload {
   userId?: number;
   title: string;
@@ -150,6 +160,10 @@ export class AuthService {
 
   getAdminRequests() {
     return this.http.get<AdminCustomerRequest[]>(`${this.apiBase}/admin/requests`, this.authorized());
+  }
+
+  getContactMessages() {
+    return this.http.get<ContactMessage[]>(`${this.apiBase}/admin/messages`, this.authorized());
   }
 
   createAdminRequest(payload: Required<RequestPayload>) {
