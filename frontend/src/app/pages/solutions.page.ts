@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
           </p>
           <div class="hero-actions">
             <a class="primary-btn" routerLink="/contacto">Solicitar evaluación</a>
-            <a class="whatsapp-btn" href="https://wa.me/51970982915" target="_blank" rel="noreferrer">WhatsApp</a>
+            <a class="whatsapp-btn" href="https://wa.me/51970982915?text=Hola%20Nuvitec%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20sus%20servicios.%20Mi%20nombre%20es%3A" target="_blank" rel="noreferrer">WhatsApp</a>
           </div>
         </div>
       </section>
