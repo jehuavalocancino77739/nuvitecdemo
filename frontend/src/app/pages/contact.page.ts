@@ -1,7 +1,23 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+interface ContactPayload {
+  name: string;
+  company: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface ContactResponse {
+  ok: boolean;
+  message: string;
+}
 
 @Component({
   selector: 'app-contact-page',
+  imports: [FormsModule],
   template: `
     <main>
       <section class="page-hero contact-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
@@ -21,36 +37,41 @@ import { Component } from '@angular/core';
             <article><strong>Teléfonos</strong><span>970 982 915 - 994 152 707</span></article>
             <article><strong>Correo</strong><span>informes@nuvitecsac.pe / ventas@nuvitecsac.pe</span></article>
             <article><strong>Horario</strong><span>Lunes a sábado de 08:00 a 18:00</span></article>
-            <article><strong>Redes sociales</strong><span>Facebook · LinkedIn · WhatsApp </span></article>
+            <article><strong>Redes sociales</strong><span>Facebook · LinkedIn · WhatsApp</span></article>
           </div>
         </div>
 
-        <form class="contact-form" aria-label="Formulario de contacto">
+        <form class="contact-form" aria-label="Formulario de contacto" (ngSubmit)="sendMessage()">
           <label>
             Nombre
-            <input type="text" placeholder="Tu nombre" autocomplete="name" />
+            <input name="name" type="text" placeholder="Tu nombre" autocomplete="name" [(ngModel)]="draft.name" required />
           </label>
           <label>
             Empresa
-            <input type="text" placeholder="Nombre de la empresa" autocomplete="organization" />
+            <input name="company" type="text" placeholder="Nombre de la empresa" autocomplete="organization" [(ngModel)]="draft.company" />
           </label>
           <label>
             Email
-            <input type="email" placeholder="correo@empresa.com" autocomplete="email" />
+            <input name="email" type="email" placeholder="correo@empresa.com" autocomplete="email" [(ngModel)]="draft.email" required />
           </label>
           <label>
             Teléfono
-            <input type="tel" placeholder="999 999 999" autocomplete="tel" />
+            <input name="phone" type="tel" placeholder="999 999 999" autocomplete="tel" [(ngModel)]="phone" />
           </label>
           <label class="full">
             Servicio
-            <input type="text" placeholder="Servicio solicitado" />
+            <input name="subject" type="text" placeholder="Servicio solicitado" [(ngModel)]="draft.subject" required />
           </label>
           <label class="full">
             Mensaje
-            <textarea rows="5" placeholder="Describe el servicio que necesitas"></textarea>
+            <textarea name="message" rows="5" placeholder="Describe el servicio que necesitas" [(ngModel)]="draft.message" required></textarea>
           </label>
-          <button class="primary-btn" type="button">Enviar mensaje</button>
+          @if (notice) {
+            <p class="form-message contact-message" [class.form-error]="error">{{ notice }}</p>
+          }
+          <button class="primary-btn" type="submit" [disabled]="sending">
+            {{ sending ? 'Enviando...' : 'Enviar mensaje' }}
+          </button>
         </form>
 
         <iframe
@@ -65,4 +86,58 @@ import { Component } from '@angular/core';
     </main>
   `
 })
-export class ContactPage {}
+export class ContactPage {
+  private readonly apiBase = 'http://127.0.0.1:8080/api';
+
+  protected draft: ContactPayload = this.emptyDraft();
+  protected phone = '';
+  protected sending = false;
+  protected notice = '';
+  protected error = false;
+
+  constructor(private readonly http: HttpClient) {}
+
+  protected sendMessage(): void {
+    if (!this.draft.name.trim() || !this.draft.email.trim() || !this.draft.subject.trim() || !this.draft.message.trim()) {
+      this.notice = 'Completa nombre, email, servicio y mensaje para enviar la consulta.';
+      this.error = true;
+      return;
+    }
+
+    this.sending = true;
+    this.notice = '';
+    this.error = false;
+
+    const payload: ContactPayload = {
+      ...this.draft,
+      name: this.draft.name.trim(),
+      company: this.draft.company.trim(),
+      email: this.draft.email.trim(),
+      subject: this.draft.subject.trim(),
+      message: this.withPhone(this.draft.message.trim())
+    };
+
+    this.http.post<ContactResponse>(`${this.apiBase}/contact`, payload).subscribe({
+      next: (response) => {
+        this.sending = false;
+        this.notice = response.message || 'Mensaje enviado correctamente. Un asesor se comunicará contigo pronto.';
+        this.draft = this.emptyDraft();
+        this.phone = '';
+      },
+      error: () => {
+        this.sending = false;
+        this.error = true;
+        this.notice = 'No se pudo enviar el mensaje. Verifica que Spring esté iniciado en el puerto 8080.';
+      }
+    });
+  }
+
+  private withPhone(message: string): string {
+    const phone = this.phone.trim();
+    return phone ? `Teléfono: ${phone}\n\n${message}` : message;
+  }
+
+  private emptyDraft(): ContactPayload {
+    return { name: '', company: '', email: '', subject: '', message: '' };
+  }
+}
