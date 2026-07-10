@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewChecked, Component, ElementRef, HostListener, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, OnDestroy, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 
 import { AuthService } from './auth.service';
 
@@ -16,10 +17,14 @@ interface ChatResponse {
   styleUrl: './app.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class App implements AfterViewChecked {
+export class App implements AfterViewChecked, AfterViewInit, OnDestroy {
   @ViewChild('chatBody') private chatBody?: ElementRef<HTMLElement>;
 
   private readonly apiBase = 'http://127.0.0.1:8080/api';
+  private readonly observedElements = new WeakSet<Element>();
+  private observer?: IntersectionObserver;
+  private revealScanQueued = false;
+  private readonly routeSubscription: Subscription;
   private shouldScrollChat = false;
 
   protected readonly chatOpen = signal(false);
@@ -40,13 +45,28 @@ export class App implements AfterViewChecked {
     protected readonly auth: AuthService,
     private readonly http: HttpClient,
     private readonly router: Router
-  ) {}
+  ) {
+    this.routeSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => this.scheduleRevealScan());
+  }
+
+  ngAfterViewInit(): void {
+    this.scheduleRevealScan();
+  }
 
   ngAfterViewChecked(): void {
     if (this.shouldScrollChat) {
       this.scrollChatToBottom();
       this.shouldScrollChat = false;
     }
+
+    this.scheduleRevealScan();
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
+    this.observer?.disconnect();
   }
 
   @HostListener('window:scroll')
@@ -138,6 +158,73 @@ export class App implements AfterViewChecked {
     if (element) {
       element.scrollTop = element.scrollHeight;
     }
+  }
+
+  private scheduleRevealScan(): void {
+    if (this.revealScanQueued) {
+      return;
+    }
+
+    this.revealScanQueued = true;
+    window.setTimeout(() => {
+      this.revealScanQueued = false;
+      this.scanRevealElements();
+    });
+  }
+
+  private scanRevealElements(): void {
+    this.ensureRevealObserver();
+
+    const elements = document.querySelectorAll(
+      [
+        'main > section',
+        '.service-card',
+        '.glass-card',
+        '.process-card',
+        '.testimonial-grid article',
+        '.contact-cards article',
+        '.detail-lists article',
+        '.ti-grid article',
+        '.benefit-timeline article',
+        '.case-grid article',
+        '.sector-grid article',
+        '.project-timeline article',
+        '.request-row',
+        '.data-table-wrap',
+        '.map-frame'
+      ].join(',')
+    );
+
+    elements.forEach((element, index) => {
+      if (this.observedElements.has(element)) {
+        return;
+      }
+
+      this.observedElements.add(element);
+      element.classList.add('scroll-reveal');
+      (element as HTMLElement).style.setProperty('--reveal-delay', `${Math.min(index % 6, 5) * 70}ms`);
+      this.observer?.observe(element);
+    });
+  }
+
+  private ensureRevealObserver(): void {
+    if (this.observer) {
+      return;
+    }
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add('is-visible');
+          this.observer?.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.12 }
+    );
   }
 
   private answer(question: string): string {
