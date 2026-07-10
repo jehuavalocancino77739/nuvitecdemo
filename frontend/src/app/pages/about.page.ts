@@ -6,7 +6,7 @@ import { advantages, stats, testimonials } from '../nuvitec-data';
   selector: 'app-about-page',
   template: `
     <main>
-      <section class="page-hero about-hero" style="--page-hero-image: url('assets/nuvitec/trabajo-equipo.jpg')">
+      <section class="page-hero about-hero" style="--page-hero-image: url('assets/nuvitec/trabajo-equipo.webp')">
         <p class="section-kicker">Acerca de nosotros</p>
         <h1>Una empresa amiga con visión tecnológica</h1>
       </section>
@@ -26,7 +26,7 @@ import { advantages, stats, testimonials } from '../nuvitec-data';
           </p>
         </div>
         <div class="team-photo">
-          <img src="assets/nuvitec/trabajo-equipo.jpg" alt="Equipo de trabajo Nuvitec" loading="lazy" />
+          <img src="assets/nuvitec/trabajo-equipo.webp" alt="Equipo de trabajo Nuvitec" loading="lazy" />
         </div>
       </section>
 

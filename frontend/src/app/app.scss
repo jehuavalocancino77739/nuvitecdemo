@@ -1862,6 +1862,10 @@ textarea:focus {
   white-space: pre-wrap;
 }
 
+.message-actions {
+  min-width: 170px;
+}
+
 .row-actions {
   display: flex;
   gap: 7px;

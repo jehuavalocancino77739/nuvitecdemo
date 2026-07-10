@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import pe.nuvitec.backend.notification.NotificationService;
 @RestController
 @RequestMapping("/api/portal")
 public class PortalController {
     private final CustomerRequestRepository repository;
+    private final NotificationService notificationService;
 
-    public PortalController(CustomerRequestRepository repository) {
+    public PortalController(CustomerRequestRepository repository, NotificationService notificationService) {
         this.repository = repository;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/requests")
@@ -30,7 +33,9 @@ public class PortalController {
     public CreatedRequest create(
             Principal principal,
             @Valid @RequestBody CreateCustomerRequest request) {
-        return new CreatedRequest(repository.createForClient(principal.getName(), request));
+        var id = repository.createForClient(principal.getName(), request);
+        notificationService.customerRequestReceived(id, principal.getName(), request);
+        return new CreatedRequest(id);
     }
 
     public record CreatedRequest(long id) {

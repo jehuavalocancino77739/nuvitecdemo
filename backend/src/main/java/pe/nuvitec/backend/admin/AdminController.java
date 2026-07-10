@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import pe.nuvitec.backend.contact.ContactMessage;
 import pe.nuvitec.backend.contact.ContactRepository;
+import pe.nuvitec.backend.contact.ContactStatusRequest;
 import pe.nuvitec.backend.portal.AdminCustomerRequest;
 import pe.nuvitec.backend.portal.AdminRequestPayload;
 import pe.nuvitec.backend.portal.CustomerRequestRepository;
@@ -73,6 +74,12 @@ public class AdminController {
     @GetMapping("/messages")
     public List<ContactMessage> messages() {
         return contactRepository.findAll();
+    }
+
+    @PutMapping("/messages/{id}/status")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateMessageStatus(@PathVariable long id, @Valid @RequestBody ContactStatusRequest request) {
+        contactRepository.updateStatus(id, request.status());
     }
 
     @PostMapping("/requests")

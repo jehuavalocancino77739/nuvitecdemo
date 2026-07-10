@@ -52,7 +52,9 @@ export interface ContactMessage {
   email: string;
   subject: string;
   message: string;
+  status: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface RequestPayload {
@@ -164,6 +166,10 @@ export class AuthService {
 
   getContactMessages() {
     return this.http.get<ContactMessage[]>(`${this.apiBase}/admin/messages`, this.authorized());
+  }
+
+  updateContactMessageStatus(id: number, status: string) {
+    return this.http.put<void>(`${this.apiBase}/admin/messages/${id}/status`, { status }, this.authorized());
   }
 
   createAdminRequest(payload: Required<RequestPayload>) {

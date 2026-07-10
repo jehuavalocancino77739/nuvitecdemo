@@ -9,5 +9,7 @@ public record ContactMessage(
         String email,
         String subject,
         String message,
-        LocalDateTime createdAt) {
+        String status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt) {
 }

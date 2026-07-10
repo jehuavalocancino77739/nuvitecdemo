@@ -11,12 +11,22 @@ IF COL_LENGTH('dbo.customer_requests', 'service_type') IS NULL
     ALTER TABLE dbo.customer_requests ADD service_type NVARCHAR(120) NULL;
 IF COL_LENGTH('dbo.customer_requests', 'updated_at') IS NULL
     ALTER TABLE dbo.customer_requests ADD updated_at DATETIME2 NULL;
+IF COL_LENGTH('dbo.contact_messages', 'status') IS NULL
+    ALTER TABLE dbo.contact_messages ADD status NVARCHAR(30) NULL;
+IF COL_LENGTH('dbo.contact_messages', 'updated_at') IS NULL
+    ALTER TABLE dbo.contact_messages ADD updated_at DATETIME2 NULL;
 GO
 
 UPDATE dbo.customer_requests
 SET
     description = COALESCE(description, title),
     service_type = COALESCE(service_type, N'Servicio general'),
+    updated_at = COALESCE(updated_at, created_at);
+GO
+
+UPDATE dbo.contact_messages
+SET
+    status = COALESCE(status, N'Nuevo'),
     updated_at = COALESCE(updated_at, created_at);
 GO
 
@@ -255,6 +265,23 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER PROCEDURE dbo.sp_contact_create
+    @name NVARCHAR(140),
+    @company NVARCHAR(140) = NULL,
+    @email NVARCHAR(160),
+    @subject NVARCHAR(180) = NULL,
+    @message NVARCHAR(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO dbo.contact_messages (name, company, email, subject, message, status, updated_at)
+    VALUES (@name, @company, @email, @subject, @message, N'Nuevo', SYSUTCDATETIME());
+
+    SELECT CAST(SCOPE_IDENTITY() AS BIGINT) AS id;
+END
+GO
+
 CREATE OR ALTER PROCEDURE dbo.sp_contact_messages_list
 AS
 BEGIN
@@ -267,9 +294,30 @@ BEGIN
         email,
         subject,
         message,
-        created_at
+        status,
+        created_at,
+        updated_at
     FROM dbo.contact_messages
     ORDER BY created_at DESC;
+END
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_contact_message_status_update
+    @id BIGINT,
+    @status NVARCHAR(30)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @status NOT IN (N'Nuevo', N'Leido', N'Atendido')
+        THROW 50004, 'Estado de mensaje no valido.', 1;
+
+    UPDATE dbo.contact_messages
+    SET status = @status, updated_at = SYSUTCDATETIME()
+    WHERE id = @id;
+
+    IF @@ROWCOUNT = 0
+        THROW 50005, 'Mensaje no encontrado.', 1;
 END
 GO
 

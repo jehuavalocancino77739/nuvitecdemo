@@ -10,7 +10,7 @@ import { AuthService, CustomerRequest, RequestPayload } from '../auth.service';
   imports: [DatePipe, FormsModule, RouterLink],
   template: `
     <main>
-      <section class="page-hero portal-hero" style="--page-hero-image: url('assets/nuvitec/4d.jpg')">
+      <section class="page-hero portal-hero" style="--page-hero-image: url('assets/nuvitec/4d.webp')">
         <p class="section-kicker">Portal de clientes</p>
         <h1>Gestión de solicitudes</h1>
       </section>

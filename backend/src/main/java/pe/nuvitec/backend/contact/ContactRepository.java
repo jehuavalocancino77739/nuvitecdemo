@@ -34,6 +34,12 @@ public class ContactRepository {
                         rs.getString("email"),
                         rs.getString("subject"),
                         rs.getString("message"),
-                        rs.getTimestamp("created_at").toLocalDateTime()));
+                        rs.getString("status"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()));
+    }
+
+    public void updateStatus(long id, String status) {
+        jdbcTemplate.update("EXEC dbo.sp_contact_message_status_update ?, ?", id, status);
     }
 }

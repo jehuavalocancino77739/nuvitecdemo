@@ -181,14 +181,14 @@ import { RouterLink } from '@angular/router';
   `],
   template: `
     <main>
-      <section class="page-hero projects-hero" style="--page-hero-image: url('assets/nuvitec/project-obras.jpg')">
+      <section class="page-hero projects-hero" style="--page-hero-image: url('assets/nuvitec/project-obras.webp')">
         <p class="section-kicker">Proyectos</p>
         <h1>Soluciones ejecutadas con control, seguridad y respaldo técnico</h1>
       </section>
 
       <section class="team-section split-layout modern-section">
         <div class="team-photo">
-          <img src="assets/nuvitec/trabajo-equipo.jpg" alt="Equipo técnico de Nuvitec coordinando un proyecto" loading="lazy" />
+          <img src="assets/nuvitec/trabajo-equipo.webp" alt="Equipo técnico de Nuvitec coordinando un proyecto" loading="lazy" />
         </div>
         <div>
           <p class="section-kicker">Proyectos integrales</p>
@@ -217,7 +217,7 @@ import { RouterLink } from '@angular/router';
 
         <div class="case-grid">
           <article>
-            <img src="assets/nuvitec/project-ti.jpg" alt="Instalación de infraestructura tecnológica" loading="lazy" />
+            <img src="assets/nuvitec/project-ti.webp" alt="Instalación de infraestructura tecnológica" loading="lazy" />
             <div>
               <span>Infraestructura TI</span>
               <h3>Implementación de red empresarial</h3>
@@ -231,7 +231,7 @@ import { RouterLink } from '@angular/router';
           </article>
 
           <article>
-            <img src="assets/nuvitec/project-obras.jpg" alt="Obra civil y pavimentación supervisada" loading="lazy" />
+            <img src="assets/nuvitec/project-obras.webp" alt="Obra civil y pavimentación supervisada" loading="lazy" />
             <div>
               <span>Obras y pavimentación</span>
               <h3>Acondicionamiento de zona operativa</h3>
@@ -245,7 +245,7 @@ import { RouterLink } from '@angular/router';
           </article>
 
           <article>
-            <img src="assets/nuvitec/project-videovigilancia.jpg" alt="Instalación de cámara de seguridad en entorno empresarial" loading="lazy" />
+            <img src="assets/nuvitec/project-videovigilancia.webp" alt="Instalación de cámara de seguridad en entorno empresarial" loading="lazy" />
             <div>
               <span>Seguridad electrónica</span>
               <h3>Instalación de videovigilancia</h3>

@@ -203,7 +203,9 @@ import {
                       <th>Empresa</th>
                       <th>Consulta</th>
                       <th>Mensaje</th>
+                      <th>Estado</th>
                       <th>Fecha</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -213,7 +215,12 @@ import {
                         <td>{{ contact.company || 'Sin empresa' }}</td>
                         <td><strong>{{ contact.subject || 'Consulta general' }}</strong></td>
                         <td class="message-cell">{{ contact.message }}</td>
+                        <td><span class="status-pill">{{ contact.status }}</span></td>
                         <td>{{ contact.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        <td class="row-actions message-actions">
+                          <button type="button" (click)="markMessage(contact, 'Leido')">Leido</button>
+                          <button type="button" (click)="markMessage(contact, 'Atendido')">Atendido</button>
+                        </td>
                       </tr>
                     }
                   </tbody>
@@ -389,6 +396,16 @@ export class AdminPage implements OnInit {
     this.auth.getContactMessages().subscribe({
       next: (messages) => (this.contactMessages = messages),
       error: () => this.notice('No se pudieron cargar los mensajes.', true)
+    });
+  }
+
+  protected markMessage(contact: ContactMessage, status: 'Nuevo' | 'Leido' | 'Atendido'): void {
+    this.auth.updateContactMessageStatus(contact.id, status).subscribe({
+      next: () => {
+        this.notice(`Mensaje marcado como ${status}.`);
+        this.loadMessages();
+      },
+      error: (response) => this.notice(response.error?.message ?? 'No se pudo actualizar el mensaje.', true)
     });
   }
 

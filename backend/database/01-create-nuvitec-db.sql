@@ -39,7 +39,9 @@ CREATE TABLE dbo.contact_messages (
     email NVARCHAR(160) NOT NULL,
     subject NVARCHAR(180) NULL,
     message NVARCHAR(MAX) NOT NULL,
-    created_at DATETIME2 NOT NULL CONSTRAINT DF_contact_messages_created_at DEFAULT SYSUTCDATETIME()
+    status NVARCHAR(30) NOT NULL CONSTRAINT DF_contact_messages_status DEFAULT N'Nuevo',
+    created_at DATETIME2 NOT NULL CONSTRAINT DF_contact_messages_created_at DEFAULT SYSUTCDATETIME(),
+    updated_at DATETIME2 NOT NULL CONSTRAINT DF_contact_messages_updated_at DEFAULT SYSUTCDATETIME()
 );
 GO
 
@@ -110,6 +112,36 @@ BEGIN
     VALUES (@name, @company, @email, @subject, @message);
 
     SELECT CAST(SCOPE_IDENTITY() AS BIGINT) AS id;
+END
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_contact_messages_list
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT id, name, company, email, subject, message, status, created_at, updated_at
+    FROM dbo.contact_messages
+    ORDER BY created_at DESC;
+END
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_contact_message_status_update
+    @id BIGINT,
+    @status NVARCHAR(30)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @status NOT IN (N'Nuevo', N'Leido', N'Atendido')
+        THROW 50004, 'Estado de mensaje no valido.', 1;
+
+    UPDATE dbo.contact_messages
+    SET status = @status, updated_at = SYSUTCDATETIME()
+    WHERE id = @id;
+
+    IF @@ROWCOUNT = 0
+        THROW 50005, 'Mensaje no encontrado.', 1;
 END
 GO
 
