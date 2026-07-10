@@ -24,12 +24,8 @@ import { advantages, clientLogos, faqItems, processSteps, services, stats, testi
           </div>
         </div>
 
-        <div class="hero-visual hero-video-card reveal" aria-label="Operaciones tecnológicas Nuvitec">
-          <video autoplay [muted]="true" loop playsinline preload="metadata" poster="assets/nuvitec/4d.webp" (canplay)="playBrandingVideo($event)">
-            <source src="assets/nuvitec/nuvitec-branding.mp4" type="video/mp4" />
-            <img src="assets/nuvitec/4d.webp" alt="Equipo técnico trabajando en infraestructura tecnológica" loading="eager" />
-          </video>
-          <div class="video-scanline" aria-hidden="true"></div>
+        <div class="hero-visual reveal" aria-label="Operaciones tecnológicas Nuvitec">
+          <img src="assets/nuvitec/4d.webp" alt="Equipo técnico trabajando en infraestructura tecnológica" loading="eager" />
           <div class="hero-metric">
             <strong>24/7</strong>
             <span>Soporte remoto disponible</span>
@@ -190,10 +186,4 @@ export class HomePage {
   protected readonly testimonials = testimonials;
   protected readonly clientLogos = clientLogos;
   protected readonly faqItems = faqItems;
-
-  protected playBrandingVideo(event: Event): void {
-    const video = event.target as HTMLVideoElement;
-    video.muted = true;
-    void video.play().catch(() => undefined);
-  }
 }

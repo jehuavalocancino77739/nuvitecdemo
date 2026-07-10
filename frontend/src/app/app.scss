@@ -337,38 +337,11 @@ img {
   transform: perspective(1200px) rotateY(0deg) rotateX(0deg) translateY(-4px);
 }
 
-.hero-visual img,
-.hero-visual video {
+.hero-visual img {
   aspect-ratio: 4 / 3;
-  display: block;
   height: 100%;
   object-fit: cover;
   width: 100%;
-}
-
-.hero-video-card {
-  background: #031329;
-}
-
-.hero-video-card::after {
-  background:
-    linear-gradient(135deg, rgba(3, 19, 41, 0.16), transparent 42%),
-    linear-gradient(0deg, rgba(3, 19, 41, 0.34), transparent 48%);
-  content: '';
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-}
-
-.video-scanline {
-  background:
-    linear-gradient(90deg, transparent, rgba(94, 215, 255, 0.24), transparent),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 7px);
-  inset: 0;
-  mix-blend-mode: screen;
-  opacity: 0.28;
-  pointer-events: none;
-  position: absolute;
 }
 
 .hero-metric {
@@ -382,7 +355,6 @@ img {
   padding: 18px;
   position: absolute;
   right: 24px;
-  z-index: 2;
 }
 
 .hero-metric strong {
