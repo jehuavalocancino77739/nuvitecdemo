@@ -245,7 +245,7 @@ import { RouterLink } from '@angular/router';
           </article>
 
           <article>
-            <img src="assets/nuvitec/project-seguridad.jpg" alt="Sistema de videovigilancia y seguridad electrónica" loading="lazy" />
+            <img src="assets/nuvitec/project-videovigilancia.jpg" alt="Instalación de cámara de seguridad en entorno empresarial" loading="lazy" />
             <div>
               <span>Seguridad electrónica</span>
               <h3>Instalación de videovigilancia</h3>
