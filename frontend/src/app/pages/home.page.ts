@@ -44,12 +44,22 @@ import { advantages, clientLogos, faqItems, processSteps, services, stats, testi
 
         <div class="service-grid">
           @for (service of services; track service.title) {
-            <article class="service-card reveal">
-              <img [src]="service.image" [alt]="service.title" loading="lazy" />
-              <div class="service-card-body">
-                <h3>{{ service.title }}</h3>
-                <p>{{ service.text }}</p>
-                <a routerLink="/contacto">Solicitar información</a>
+            <article class="service-card flip-card reveal" tabindex="0">
+              <div class="service-card-inner">
+                <div class="service-card-face service-card-front">
+                  <img [src]="service.image" [alt]="service.title" loading="lazy" />
+                  <div class="service-card-body">
+                    <span class="service-icon">{{ service.icon }}</span>
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.text }}</p>
+                  </div>
+                </div>
+                <div class="service-card-face service-card-back">
+                  <span class="service-icon">{{ service.icon }}</span>
+                  <h3>{{ service.title }}</h3>
+                  <p>{{ service.detail }}</p>
+                  <a routerLink="/contacto">Solicitar información</a>
+                </div>
               </div>
             </article>
           }
