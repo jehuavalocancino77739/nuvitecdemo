@@ -34,7 +34,7 @@ interface ContactResponse {
           <div class="contact-cards">
             <article><strong>Oficina central</strong><span>Av. 2 de mayo nro. 647, Urb. Nueva Esperanza - Lima 35</span></article>
             <article><strong>Operaciones</strong><span>Av. Pedro Silva 830-984, Lima 29</span></article>
-            <article><strong>Teléfonos</strong><span>970 982 915 - 994 152 707</span></article>
+            <article><strong>Teléfono</strong><span>970 982 915 - 994 152 707</span></article>
             <article><strong>Correo</strong><span>informes@nuvitecsac.pe / ventas@nuvitecsac.pe</span></article>
             <article><strong>Horario</strong><span>Lunes a sábado de 08:00 a 18:00</span></article>
             <article><strong>Redes sociales</strong><span>Facebook · LinkedIn · WhatsApp</span></article>
