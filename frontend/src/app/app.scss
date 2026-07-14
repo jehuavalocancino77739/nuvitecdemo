@@ -556,13 +556,14 @@ img {
 }
 
 .service-card-back {
-  align-items: flex-start;
+  align-items: center;
   background:
     radial-gradient(circle at 18% 10%, rgba(94, 215, 255, 0.2), transparent 32%),
     linear-gradient(145deg, #06204a, #0a438d);
   color: #fff;
   justify-content: center;
   padding: 32px;
+  text-align: center;
   transform: rotateY(180deg);
 }
 
@@ -589,8 +590,12 @@ img {
 }
 
 .service-card-body {
+  align-items: center;
+  display: flex;
   flex: 1;
+  flex-direction: column;
   padding: 28px 22px 24px;
+  text-align: center;
 }
 
 .service-icon,
@@ -636,6 +641,10 @@ img {
   text-transform: uppercase;
 }
 
+.service-card .service-icon {
+  display: none;
+}
+
 .service-card-back h3,
 .service-card-back p,
 .service-card-back a {
@@ -658,6 +667,8 @@ img {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: auto;
   padding: 12px 16px;
 }
