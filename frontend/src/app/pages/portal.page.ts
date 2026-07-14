@@ -99,7 +99,7 @@ import { AuthService, CustomerRequest, RequestPayload } from '../auth.service';
           <h2>Inicia sesión como cliente para acceder al portal</h2>
           <div class="portal-empty-actions">
             <button type="button" class="primary-btn" (click)="openLogin()">Iniciar sesión</button>
-            <a class="ghost-dark-btn" routerLink="/registro">Crear cuenta</a>
+            <a class="primary-btn" routerLink="/registro">Crear cuenta</a>
           </div>
         </section>
       }
