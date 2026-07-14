@@ -1501,6 +1501,13 @@ textarea:focus {
   max-width: 760px;
 }
 
+.portal-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 22px;
+}
+
 .reveal {
   animation: fade-up 0.7s ease both;
 }

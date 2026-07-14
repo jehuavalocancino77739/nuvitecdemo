@@ -97,7 +97,10 @@ import { AuthService, CustomerRequest, RequestPayload } from '../auth.service';
         <section class="portal-empty">
           <p class="section-kicker">Sesión requerida</p>
           <h2>Inicia sesión como cliente para acceder al portal</h2>
-          <a class="primary-btn" routerLink="/registro">Crear cuenta</a>
+          <div class="portal-empty-actions">
+            <button type="button" class="primary-btn" (click)="openLogin()">Iniciar sesión</button>
+            <a class="ghost-dark-btn" routerLink="/registro">Crear cuenta</a>
+          </div>
         </section>
       }
 
@@ -141,6 +144,10 @@ export class PortalPage {
   protected formError = false;
 
   constructor(protected readonly auth: AuthService) {}
+
+  protected openLogin(): void {
+    window.dispatchEvent(new CustomEvent('nuvitec-login'));
+  }
 
   protected createRequest(): void {
     this.saving = true;

@@ -74,6 +74,11 @@ export class App implements AfterViewChecked, AfterViewInit, OnDestroy {
     this.scrolled.set(window.scrollY > 18);
   }
 
+  @HostListener('window:nuvitec-login')
+  protected onLoginRequested(): void {
+    this.openLogin();
+  }
+
   protected toggleMenu(): void {
     this.menuOpen.update((open) => !open);
   }
