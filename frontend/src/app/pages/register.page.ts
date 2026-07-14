@@ -52,6 +52,17 @@ import { AuthService, RegistrationPayload } from '../auth.service';
               autocomplete="new-password"
             />
           </label>
+          <label class="form-span">
+            Confirmar contraseña
+            <input
+              name="confirmPassword"
+              type="password"
+              [(ngModel)]="confirmPassword"
+              required
+              minlength="8"
+              autocomplete="new-password"
+            />
+          </label>
 
           @if (message) {
             <p class="form-message form-span" [class.form-error]="error">{{ message }}</p>
@@ -76,6 +87,7 @@ export class RegisterPage {
     email: '',
     password: ''
   };
+  protected confirmPassword = '';
   protected loading = false;
   protected message = '';
   protected error = false;
@@ -86,9 +98,16 @@ export class RegisterPage {
   ) {}
 
   protected submit(): void {
-    this.loading = true;
     this.error = false;
     this.message = '';
+
+    if (this.model.password !== this.confirmPassword) {
+      this.error = true;
+      this.message = 'Las contraseñas no coinciden.';
+      return;
+    }
+
+    this.loading = true;
 
     this.auth.register(this.model).subscribe({
       next: () => {
@@ -111,4 +130,3 @@ export class RegisterPage {
     });
   }
 }
-
