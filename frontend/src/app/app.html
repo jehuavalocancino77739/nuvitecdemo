@@ -19,8 +19,6 @@
     @if (auth.currentUser()) {
       @if (auth.isAdmin()) {
         <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Administración</a>
-      } @else {
-        <a routerLink="/portal" routerLinkActive="active" (click)="closeMenu()">Portal</a>
       }
     }
   </nav>
